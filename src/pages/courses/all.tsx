@@ -1,6 +1,54 @@
 import Image from "next/image";
+import CourseCard from "@/components/CourseCard";
 import styles from "@/styles/Courses.module.css";
-export default function Courses() {
+import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+// import CourseCard from '../../components/CourseCard';
+
+type Courses = {
+  name: string;
+  stargazers_count: number;
+};
+interface OrgCourseListResponses {
+  course_count: number;
+  courses: {
+    id: number;
+    course_type: number;
+    tags: string[];
+    title: string;
+    short_description: string;
+    class_type: number;
+    logo_file_url: null | string;
+    enrolled_role_period: null | string;
+    enrolledRoleBeginDatetime: number | null;
+    enrolledRoleEndDatetime: number | null;
+    beginDatetime: number;
+    endDatetime: null | number;
+    isDiscounted: boolean;
+    discountedPrice: string;
+    discountedPriceUsd: string;
+    discountRate: null | any;
+    price: string;
+    priceUsd: string;
+    enroll_type: number;
+    is_free: boolean;
+  }[];
+}
+
+export const getServerSideProps: GetServerSideProps<{
+  courseLists: OrgCourseListResponses;
+}> = async () => {
+  const res = await fetch(
+    "https://api-rest.elice.io/org/academy/course/list/?sort_by=created_datetime.desc&offset=0&count=20",
+    { cache: "no-cache" }
+  );
+  const courseLists = await res.json();
+  return { props: { courseLists } };
+};
+
+export default function Courses({
+  courseLists,
+}: InferGetServerSidePropsType<typeof getServerSideProps>) {
+  const { course_count, courses } = courseLists;
   return (
     <main className={styles.wrap}>
       <section className={`${styles.wrap} ${styles.search}`}>
@@ -16,21 +64,11 @@ export default function Courses() {
         </div>
       </section>
       <section className={`${styles.wrap} ${styles.courses}`}>
+        <div className={styles.total}>전체 {course_count}개</div>
         <div className={styles.courses_container}>
-          <article className={styles.card}>
-            <div className="title"></div>
-            <div className="course_contents">내용</div>
-            {/* <div className="course_image_box">
-              <Image
-                className={styles.logo}
-                src="/next.svg"
-                alt="course preview"
-                width={180}
-                height={37}
-                priority
-              />
-            </div> */}
-          </article>
+          {courses.map((course) => {
+            return <CourseCard course={course} key={course.id} />;
+          })}
         </div>
         <div className={styles.pagination}>pagination</div>
       </section>

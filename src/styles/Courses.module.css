@@ -10,7 +10,6 @@
 
 .courses {
   min-height: 800px;
-  padding: 28px 24px;
 }
 
 .text_search {
@@ -37,7 +36,7 @@
 
 .filter_container {
   border: 1px solid rgb(225, 226, 228);
-  margin-bottom: 56px;
+  margin-bottom: 12px;
 }
 
 .filter_group {
@@ -63,8 +62,43 @@
   border-left: 1px solid rgb(225, 226, 228);
 }
 
+.total {
+  width: 100%;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid rgb(225, 226, 228);
+}
+.courses_container {
+  width: 100%;
+  display: flex;
+  align-items: flex-start;
+  justify-content: flex-start;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding: 28px 24px;
+}
 .card {
-  width: 296px;
+  width: calc(25% - 16px);
+  /* width: 296px; */
   height: 338px;
   border-radius: 8px;
+  background-color: white;
+}
+
+@media (max-width: 1280px) {
+  .card {
+    width: calc(33.333333% - 16px);
+  }
+}
+@media (max-width: 768px) {
+  .card {
+    width: calc(50% - 16px);
+  }
+}
+@media (max-width: 576px) {
+  .card {
+    width: calc(100% - 16px);
+  }
+}
+
+.pagination {
 }
