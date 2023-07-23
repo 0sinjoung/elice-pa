@@ -1,9 +1,8 @@
 import React from "react";
-// import styles from "./layout.module.css";
+import styles from "@/styles/Layout.module.css";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
-    // <div className={styles.container}>
-    <div className="layout">{children}</div>
+    <div className={styles.layout}>{children}</div>
   );
 }
