@@ -1,6 +1,7 @@
 import Image from "next/image";
-import CourseCard from "@/components/CourseCard";
 import Chip from "@/components/Chip";
+import CourseCard from "@/components/CourseCard";
+import Pagination from "@/components/Pagination";
 import styles from "@/styles/Courses.module.css";
 import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
@@ -57,6 +58,11 @@ export default function Courses({
     console.log(id);
   };
 
+  /* pagination */
+  const handleClickPageButton = (changedPage: number): void => {
+    console.log(changedPage);
+  };
+
   return (
     <main className={styles.wrap}>
       <section className={`${styles.wrap} ${styles.search}`}>
@@ -91,7 +97,11 @@ export default function Courses({
             return <CourseCard course={course} key={course.id} />;
           })}
         </div>
-        <div className={styles.pagination}>pagination</div>
+        <Pagination
+          totalCount={course_count}
+          countPerPage={20}
+          handleChangePage={handleClickPageButton}
+        />
       </section>
     </main>
   );

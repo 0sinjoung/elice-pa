@@ -1,0 +1,49 @@
+.chip_box {
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.button_lists {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 8px;
+  gap: 4px;
+}
+.button_list {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.page_button {
+  width: 100%;
+  height: 100%;
+  color: #999;
+  cursor: pointer;
+  text-align: center;
+}
+.page_button.breadscrumb {
+  background-color: #524fa1;
+  color: white;
+}
+
+.prev,
+.next {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #222;
+  cursor: pointer;
+}
+
+.prev.disable,
+.next.disable {
+  color: #ccc;
+  cursor: not-allowed;
+}
