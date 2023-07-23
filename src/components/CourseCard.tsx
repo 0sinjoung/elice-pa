@@ -1,5 +1,11 @@
 import Image from "next/image";
-import styles from "@/styles/Courses.module.css";
+import styles from "@/styles/Card.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faDisplay,
+  faCalendar,
+  faChartLine,
+} from "@fortawesome/free-solid-svg-icons";
 
 type Course = {
   id: number;
@@ -36,23 +42,43 @@ export default function CourseCard({ course }): JSX.Element {
   } = course;
   return (
     <article className={styles.card}>
-      <div className="title">{title}</div>
-      <div className="title">{short_description}</div>
-      <div className="title">난이도 {class_type}</div>
-      <div className="title">수업 {class_type}</div>
-      <div className="title">기간 {enrolled_role_period}</div>
-      <div className="course_contents"></div>
-      <div className="course_image_box">
-        <Image
-          className={styles.logo}
-          src={logo_file_url || ""}
-          alt="course preview"
-          width={52}
-          height={52}
-          priority
-        />
+      <div className={styles.contents}>
+        <div className={styles.title}>{title}</div>
+        <div className={styles.desc}>{short_description}</div>
+        <div className={styles.icon_box}>
+          <ul className={styles.icon_lists}>
+            <li className={styles.icon_list}>
+              <span className={styles.icon}>
+                <FontAwesomeIcon icon={faChartLine} />
+              </span>
+              <span>난이도 : 미설정</span>
+            </li>
+            <li className={styles.icon_list}>
+              <span className={styles.icon}>
+                <FontAwesomeIcon icon={faDisplay} />
+              </span>
+              <span>수업 : 온라인</span>
+            </li>
+            <li className={styles.icon_list}>
+              <span className={styles.icon}>
+                <FontAwesomeIcon icon={faCalendar} />
+              </span>
+              <span>기간 : 무제한</span>
+            </li>
+          </ul>
+          <div className={styles.image_box}>
+            <Image
+              className={styles.logo}
+              src={logo_file_url || ""}
+              alt="course preview"
+              width={52}
+              height={52}
+              priority
+            />
+          </div>
+        </div>
       </div>
-      <div className="title">
+      <div className={styles.label}>
         {enroll_type === 4 ? "구독" : is_free ? "무료" : "유료"}
       </div>
     </article>

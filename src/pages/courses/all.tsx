@@ -1,7 +1,10 @@
 import Image from "next/image";
 import CourseCard from "@/components/CourseCard";
+import Chip from "@/components/Chip";
 import styles from "@/styles/Courses.module.css";
 import type { InferGetServerSidePropsType, GetServerSideProps } from "next";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 // import CourseCard from '../../components/CourseCard';
 
 type Courses = {
@@ -49,17 +52,35 @@ export default function Courses({
   courseLists,
 }: InferGetServerSidePropsType<typeof getServerSideProps>) {
   const { course_count, courses } = courseLists;
+
+  const handlePressChip = (id: string) => {
+    console.log(id);
+  };
+
   return (
     <main className={styles.wrap}>
       <section className={`${styles.wrap} ${styles.search}`}>
         <div className={styles.text_search}>
-          <div className={styles.icon}>아이콘</div>
-          <input type="text" className={styles.text_field} />
+          <span className={styles.icon}>
+            <FontAwesomeIcon icon={faMagnifyingGlass} />
+          </span>
+          <input
+            type="text"
+            className={styles.text_field}
+            placeholder="배우고 싶은 언어, 기술을 검색해 보세요"
+          />
         </div>
         <div className={styles.filter_container}>
           <div className={styles.filter_group}>
             <div className={styles.group_label}>가격</div>
-            <div className={styles.group_chips}>칩 영역</div>
+            <div className={styles.group_chips}>
+              <Chip id={26} name={26} onPress={handlePressChip}>
+                무료
+              </Chip>
+              <Chip id={27} name={27} onPress={handlePressChip} initPressed>
+                유료
+              </Chip>
+            </div>
           </div>
         </div>
       </section>

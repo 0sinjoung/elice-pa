@@ -1,0 +1,30 @@
+.chip_box {
+}
+.chip {
+  min-width: 30px;
+  height: 30px;
+  margin: 8px;
+  padding: 0 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: all 150ms ease-in-out 0s;
+  cursor: pointer;
+  border-radius: 30px;
+  font-size: 14px;
+}
+
+.chip[aria-pressed="false"] {
+  background: rgb(240, 241, 243);
+}
+.chip[aria-pressed="false"]:hover {
+  background: rgb(225, 226, 228);
+}
+.chip[aria-pressed="true"] {
+  color: rgb(249, 250, 252);
+  background: rgb(82, 79, 161);
+}
+.chip[aria-pressed="true"] {
+  color: rgb(249, 250, 252);
+  background: rgb(66, 63, 140);
+}
