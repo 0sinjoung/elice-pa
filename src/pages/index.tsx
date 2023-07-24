@@ -15,7 +15,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={`${styles.main} ${inter.className}`}>
-        <Link href="/courses/all">코스 보러 가기</Link>
+        <Link href="/courses/all">엘리스 코스 보러 가기</Link>
       </main>
     </>
   );

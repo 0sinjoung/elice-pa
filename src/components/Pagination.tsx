@@ -1,13 +1,8 @@
 import React, { useState, useEffect } from "react";
 import styles from "@/styles/Pagination.module.css";
+import { PaginationProps } from "@/constants/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faAngleRight, faAngleLeft } from "@fortawesome/free-solid-svg-icons";
-
-interface PaginationProps {
-  totalCount: number;
-  countPerPage: number; // 페이지당 보여줄 컨텐츠 갯수
-  handleChangePage: (changedPage: number) => void;
-}
 
 export default function Pagination({
   totalCount,
