@@ -1,5 +1,6 @@
 import Image from "next/image";
 import styles from "@/styles/Card.module.css";
+import { Course } from "@/constants/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
   faDisplay,
@@ -7,29 +8,7 @@ import {
   faChartLine,
 } from "@fortawesome/free-solid-svg-icons";
 
-type Course = {
-  id: number;
-  course_type: number;
-  tags: string[];
-  title: string;
-  short_description: string;
-  class_type: number;
-  logo_file_url: null | string;
-  enrolled_role_period: null | string;
-  enrolledRoleBeginDatetime: number | null;
-  enrolledRoleEndDatetime: number | null;
-  beginDatetime: number;
-  endDatetime: null | number;
-  isDiscounted: boolean;
-  discountedPrice: string;
-  discountedPriceUsd: string;
-  discountRate: null | any;
-  price: string;
-  priceUsd: string;
-  enroll_type: number;
-  is_free: boolean;
-};
-export default function CourseCard({ course }): JSX.Element {
+export default function CourseCard({ course }: Course): JSX.Element {
   const {
     title,
     short_description,

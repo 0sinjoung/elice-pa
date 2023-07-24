@@ -1,14 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { ChipProps } from "@/constants/types";
 import styles from "@/styles/Chip.module.css";
-
-interface ChipProps {
-  children: React.ReactNode;
-  id: string | number;
-  name: string | number;
-  initPressed?: boolean;
-  onPress?: (id: string, currentPressed: boolean) => void;
-  className?: string;
-}
 
 export default function Chip({
   children,

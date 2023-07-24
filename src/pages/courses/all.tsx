@@ -3,46 +3,12 @@ import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import Chip from "@/components/Chip";
 import CourseCard from "@/components/CourseCard";
 import Pagination from "@/components/Pagination";
+import { PAGE_COUNT, initChip } from "@/constants/index";
+import { Courses, OrgCourseListResponses } from "@/constants/types";
 import styles from "@/styles/Courses.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
 import { useDebounce } from "use-debounce";
-
-type Courses = {
-  name: string;
-  stargazers_count: number;
-};
-interface OrgCourseListResponses {
-  course_count: number;
-  courses: {
-    id: number;
-    course_type: number;
-    tags: string[];
-    title: string;
-    short_description: string;
-    class_type: number;
-    logo_file_url: null | string;
-    enrolled_role_period: null | string;
-    enrolledRoleBeginDatetime: number | null;
-    enrolledRoleEndDatetime: number | null;
-    beginDatetime: number;
-    endDatetime: null | number;
-    isDiscounted: boolean;
-    discountedPrice: string;
-    discountedPriceUsd: string;
-    discountRate: null | any;
-    price: string;
-    priceUsd: string;
-    enroll_type: number;
-    is_free: boolean;
-  }[];
-}
-
-const PAGE_COUNT = 20;
-const initChip = [
-  { id: 26, label: "무료", initPressed: false },
-  { id: 27, label: "유료", initPressed: false },
-];
 
 export default function Courses() {
   const router = useRouter();
@@ -103,6 +69,13 @@ export default function Courses() {
   }, [searchParams]);
 
   useEffect(() => {
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+    params.delete("keyword");
+    params.append("keyword", debouncedText);
+    router.push(`${pathname}?${params.toString()}`);
+  }, [debouncedText]);
+
+  useEffect(() => {
     if (!filter) return;
     setQueryParams(`?count=${PAGE_COUNT}&offset=0&filter_conditions=${filter}`);
   }, [filter]);
@@ -111,13 +84,6 @@ export default function Courses() {
     if (!queryParams) return;
     getData();
   }, [queryParams]);
-
-  useEffect(() => {
-    const params = new URLSearchParams(Array.from(searchParams.entries()));
-    params.delete("keyword");
-    params.append("keyword", debouncedText);
-    router.push(`${pathname}?${params.toString()}`);
-  }, [debouncedText]);
 
   // if (error) return <div>Failed to load tracks</div>;
   // if (isLoading) return <div>Loading...</div>;
