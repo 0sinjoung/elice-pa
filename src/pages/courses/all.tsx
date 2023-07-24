@@ -6,6 +6,7 @@ import Pagination from "@/components/Pagination";
 import styles from "@/styles/Courses.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faMagnifyingGlass } from "@fortawesome/free-solid-svg-icons";
+import { useDebounce } from "use-debounce";
 
 type Courses = {
   name: string;
@@ -47,10 +48,12 @@ export default function Courses() {
   const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
+  const [textFieldValue, setTextFieldValue] = useState("");
   const [chips, setChips] = useState(initChip);
   const [filter, setFilter] = useState("");
   const [courseLists, setCourseLists] = useState<OrgCourseListResponses>();
   const [queryParams, setQueryParams] = useState("count=20&offset=0");
+  const [debouncedText] = useDebounce(textFieldValue, 300);
 
   /* Fetch */
   async function getData() {
@@ -66,11 +69,12 @@ export default function Courses() {
 
   /* Effects */
   useEffect(() => {
-    const values = Array.from(searchParams.values());
+    const chips = Array.from(searchParams.getAll("price"));
+    const keyword = searchParams.get("keyword");
 
     // access url -> change chips
     const changeChip = initChip.map((item) => {
-      if (values.includes(item.id.toString())) {
+      if (chips.includes(item.id.toString())) {
         return { ...item, initPressed: true };
       }
       return item;
@@ -81,8 +85,9 @@ export default function Courses() {
     setFilter(
       JSON.stringify({
         $and: [
+          { title: `%${keyword}%` },
           {
-            $or: values.map((item) => {
+            $or: chips.map((item) => {
               if (parseInt(item) === 26) {
                 return { enroll_type: 0, is_free: true };
               }
@@ -107,11 +112,25 @@ export default function Courses() {
     getData();
   }, [queryParams]);
 
+  useEffect(() => {
+    const params = new URLSearchParams(Array.from(searchParams.entries()));
+    params.delete("keyword");
+    params.append("keyword", debouncedText);
+    router.push(`${pathname}?${params.toString()}`);
+  }, [debouncedText]);
+
   // if (error) return <div>Failed to load tracks</div>;
   // if (isLoading) return <div>Loading...</div>;
   if (!courseLists) return null;
 
   /* Event */
+  const handleChangeTextField = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ): void => {
+    const { value } = e.target;
+    setTextFieldValue(value);
+  };
+
   const handlePressChip = (id: string, pressed: boolean) => {
     const params = new URLSearchParams(Array.from(searchParams.entries()));
 
@@ -147,8 +166,13 @@ export default function Courses() {
           </span>
           <input
             type="text"
+            name="text_field"
             className={styles.text_field}
             placeholder="배우고 싶은 언어, 기술을 검색해 보세요"
+            onChange={handleChangeTextField}
+            value={textFieldValue}
+            spellCheck="false"
+            autoComplete="off"
           />
         </div>
         <div className={styles.filter_container}>
