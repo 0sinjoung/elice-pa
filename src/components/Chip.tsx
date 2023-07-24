@@ -6,7 +6,7 @@ interface ChipProps {
   id: string | number;
   name: string | number;
   initPressed?: boolean;
-  onPress?: (id: string) => void;
+  onPress?: (id: string, currentPressed: boolean) => void;
   className?: string;
 }
 
@@ -15,7 +15,7 @@ export default function Chip({
   id,
   name,
   initPressed = false,
-  onPress = (id: string) => {},
+  onPress = (id: string, currentPressed: boolean) => {},
   className = "",
 }: ChipProps): JSX.Element {
   const [isPressed, setIsPressed] = useState(false);
@@ -26,8 +26,9 @@ export default function Chip({
 
   const handleClick: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     const { id } = e.currentTarget;
-    setIsPressed((prev) => !prev);
-    onPress(id);
+    const currentPressed = isPressed;
+    setIsPressed(!currentPressed);
+    onPress(id, !currentPressed);
   };
   return (
     <div className={styles.chip_box}>
